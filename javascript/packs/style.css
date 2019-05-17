@@ -1,0 +1,29 @@
+@import 'variables.css';
+
+body {
+  color: var(--color-body-text);
+  line-height: 1.618;
+  font-size: 14px;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: 1px solid;
+}
+
+th,
+td {
+  border-width: 0 0 1px 1px;
+  border-style: solid;
+  padding: 0.5em 1em;
+}
+
+table td:first-child,
+table th:first-child {
+  border-left-width: 0;
+}
+
+thead {
+  text-align: left;
+}

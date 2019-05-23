@@ -26,11 +26,12 @@ class App < Sinatra::Base
       begin
         email = Mapi::Msg.open tempfile
         email_headers = email.headers.inject({}) { |x, (k,v)| x["#{k}:"] = v; x }
+        puts "email_headers: #{email_headers}"
         json email_headers
       rescue => e
+        error_response = {Error: "Invalid File, please select an .msg file"}
+        json error_response
         puts "Error: #{e}"
-        json ['Error!', e.inspect]
-        raise e
       end
     else
       puts "No File Detected: #{file}"

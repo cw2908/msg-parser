@@ -9,7 +9,7 @@ body {
   color: var(--color-body-text);
   line-height: 1.618;
   font-size: 14px;
-  background-color: #fff
+  background-color: #2D3142
 }
 .table-container {
   height: 80vh;
@@ -17,24 +17,24 @@ body {
   margin: 0 auto
 }
 table {
-  /* border-collapse: collapse; */
-  /* border-spacing: 0; */
-  /* border: 1px solid; */
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: 1px solid;
 }
 
 th,
 td {
-  /* border-width: 0 0 1px 1px; */
-  /* border-style: solid; */
+  border-width: 0 0 1px 1px;
+  border-color: #BFC0C0;
   padding: 0.5em 1em;
 }
 
 th {
-  color: #0079AA;
+  color: #F15025;
 }
 
 td {
-  color: #111111;
+  color: #FFFFFF;
 }
 table td:first-child,
 table th:first-child {
@@ -69,7 +69,8 @@ main {
 .inputfile + label {
   font-size: 1.25em;
   font-weight: 700;
-  color: #EAEBED;
+  color: #2D3142;
+  background-color: #FFFFFF;
   display: inline-block;
   cursor: pointer;
   padding: 2px 12px;

@@ -39,11 +39,11 @@ class App extends Component {
                 clearFile={() => this.clearFile()}
               />
             </div>
-            <div className='clipboard'>
+            {this.state.emailHeaders.length > 0 && <div className='clipboard'>
               <CopyToClipboard text={this.formatHeaders()} onCopy={() => { console.log({ headers: this.state.emailHeaders }) && this.setState({ copied: true }) }}>
                 <button>Copy to clipboard</button>
               </CopyToClipboard>
-            </div>
+            </div>}
           </div>
           <Table headings={['Header', 'Value']} rows={this.state.emailHeaders} />
         </main>

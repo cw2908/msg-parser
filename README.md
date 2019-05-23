@@ -1,6 +1,8 @@
-# .msg Parser
+# .msg parser
 
-Need to open an .msg file? Hate ads?
+This utility will allow you to parse `.msg`  files without outlook or any application. Simply upload your file.
+
+Live example here: https://msg-parser.herokuapp.com/
 
 
 

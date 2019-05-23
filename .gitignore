@@ -2,3 +2,5 @@
 /public/packs
 .byebug_history
 tester.rb
+/tmp
+*error.log

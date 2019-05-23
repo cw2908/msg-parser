@@ -6,13 +6,15 @@ class FileUpload extends Component {
     const { handleFile, clearFile } = this.props
     return (
       <div className='file-upload'>
-        <label htmlFor='csvFile'>Select File</label>
         <input
-          id='csvFile'
+          id='file'
+          className='inputfile'
           type='file'
+          name='file'
           multiple={false}
           onChange={(e) => handleFile(e)}
         />
+        <label htmlFor='file'>Select File</label>
       </div>
     )
   }

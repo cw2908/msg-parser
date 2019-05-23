@@ -1,29 +1,88 @@
 @import 'variables.css';
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 body {
   color: var(--color-body-text);
   line-height: 1.618;
   font-size: 14px;
+  background-color: #fff
 }
-
+.table-container {
+  height: 80vh;
+  width: 80%;
+  margin: 0 auto
+}
 table {
-  border-collapse: collapse;
-  border-spacing: 0;
-  border: 1px solid;
+  /* border-collapse: collapse; */
+  /* border-spacing: 0; */
+  /* border: 1px solid; */
 }
 
 th,
 td {
-  border-width: 0 0 1px 1px;
-  border-style: solid;
+  /* border-width: 0 0 1px 1px; */
+  /* border-style: solid; */
   padding: 0.5em 1em;
 }
 
+th {
+  color: #0079AA;
+}
+
+td {
+  color: #111111;
+}
 table td:first-child,
 table th:first-child {
   border-left-width: 0;
 }
 
+tbody {
+  overflow: hidden;
+
+}
 thead {
-  text-align: left;
+  text-align: center;
+}
+
+main {
+  height: 100vh;
+}
+
+.file-upload {
+  margin: 2em auto;
+  max-width: 300px;
+  text-align: center;
+}
+.inputfile {
+  width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+.inputfile + label {
+  font-size: 1.25em;
+  font-weight: 700;
+  color: #EAEBED;
+  display: inline-block;
+  cursor: pointer;
+  padding: 2px 12px;
+  border: 1px #0079AA solid;
+  border-radius: 3px;
+}
+
+.inputfile:focus + label,
+.inputfile + label:hover {
+    background-color: #F8F8F8;
+}
+
+.inputfile:focus + label {
+	outline: 1px dotted #F8F8F8;
+	outline: -webkit-focus-ring-color auto 5px;
 }

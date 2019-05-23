@@ -18,31 +18,37 @@ class App extends Component {
       'Content-Type': 'multipart/form-data'
     }
     const response = await axios.post('msg', formData, headers)
-    const body = await response.json()
-    console.log({ body })
-    this.setState({ emailHeaders: body })
+    console.log({ response })
+    const body = await response.data
+    console.log(body)
+    console.log({ bodyType: typeof body })
+    this.setState({ emailHeaders: Object.entries(body) })
   }
   render () {
     return (
       <div>
-        <FileUpload
-          handleFile={(e) => this.handleFile(e)}
-          clearFile={() => this.clearFile()}
-        />
-        <Table headings={['Header', 'Value']} rows={this.state.emailHeaders} />
+        <main>
+          <div className='upload-container'>
+            <FileUpload
+              handleFile={(e) => this.handleFile(e)}
+              clearFile={() => this.clearFile()}
+            />
+          </div>
+          <Table headings={['Header', 'Value']} rows={this.state.emailHeaders} />
+        </main>
       </div>
     )
   }
 
   componentDidMount () {
-    fetch('/products')
-      .then(response => response.json())
-      .then(responseData => {
-        this.setState({
-          products: responseData
-        })
-      })
-      .catch(error => console.log('Error:', error))
+    // fetch('/products')
+    //   .then(response => response.json())
+    //   .then(responseData => {
+    //     this.setState({
+    //       products: responseData
+    //     })
+    //   })
+    //   .catch(error => console.log('Error:', error))
   }
 }
 

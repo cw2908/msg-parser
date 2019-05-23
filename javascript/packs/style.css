@@ -9,7 +9,7 @@ body {
   color: var(--color-body-text);
   line-height: 1.618;
   font-size: 14px;
-  background-color: #2D3142
+  background-color: #283044
 }
 .table-container {
   height: 80vh;
@@ -36,6 +36,10 @@ th {
 td {
   color: #FFFFFF;
 }
+
+td:hover {
+  color: #FF5526 /* Pick better offset color? */
+}
 table td:first-child,
 table th:first-child {
   border-left-width: 0;
@@ -58,6 +62,20 @@ main {
   max-width: 300px;
   text-align: center;
 }
+.clipboard {
+  margin: 2em auto;
+  max-width: 300px;
+  text-align: center;
+}
+.clipboard > button {
+  padding: 2px 12px;
+  background-color: #ffffff;
+  color: #32292F;
+  border: 1px #0079AA solid;
+  font-size: 1.25em;
+  font-weight: 700;
+  border-radius: 3px;
+}
 .inputfile {
   width: 0.1px;
 	height: 0.1px;
@@ -69,7 +87,7 @@ main {
 .inputfile + label {
   font-size: 1.25em;
   font-weight: 700;
-  color: #2D3142;
+  color: #32292F;
   background-color: #FFFFFF;
   display: inline-block;
   cursor: pointer;

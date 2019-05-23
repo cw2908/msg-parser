@@ -5,7 +5,7 @@ class FileUpload extends Component {
   render () {
     const { handleFile, clearFile } = this.props
     return (
-      <div className='file-upload'>
+      <>
         <input
           id='file'
           className='inputfile'
@@ -15,7 +15,7 @@ class FileUpload extends Component {
           onChange={(e) => handleFile(e)}
         />
         <label htmlFor='file'>Select File</label>
-      </div>
+      </>
     )
   }
 }

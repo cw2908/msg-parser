@@ -2,13 +2,17 @@ import React, { Component } from 'react'
 import { hot } from 'react-hot-loader'
 import FileUpload from './components/FileUpload'
 import Table from './components/Table'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 import axios from 'axios'
 
 class App extends Component {
   state = {
-    emailHeaders: []
+    emailHeaders: [],
+    copied: false
   }
-
+  formatHeaders = () => {
+    return this.state.emailHeaders.map(h => `${h[0]} ${h[1]}`).join('\n')
+  }
   handleFile = async (e) => {
     let file = e.target.files[0]
     console.log({ file })
@@ -29,10 +33,17 @@ class App extends Component {
       <div>
         <main>
           <div className='upload-container'>
-            <FileUpload
-              handleFile={(e) => this.handleFile(e)}
-              clearFile={() => this.clearFile()}
-            />
+            <div className='file-upload'>
+              <FileUpload
+                handleFile={(e) => this.handleFile(e)}
+                clearFile={() => this.clearFile()}
+              />
+            </div>
+            <div className='clipboard'>
+              <CopyToClipboard text={this.formatHeaders()} onCopy={() => { console.log({ headers: this.state.emailHeaders }) && this.setState({ copied: true }) }}>
+                <button>Copy to clipboard</button>
+              </CopyToClipboard>
+            </div>
           </div>
           <Table headings={['Header', 'Value']} rows={this.state.emailHeaders} />
         </main>

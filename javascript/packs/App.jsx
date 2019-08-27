@@ -5,29 +5,74 @@ import Table from './components/Table'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import axios from 'axios'
 
+const VIEWS = {
+  header: 'HEADER',
+  body: 'BODY'
+}
 class App extends Component {
   state = {
     emailHeaders: [],
-    copied: false
+    copied: false,
+    view: VIEWS.header
   }
   formatHeaders = () => {
     return this.state.emailHeaders.map(h => `${h[0]} ${h[1]}`).join('\n')
   }
-  handleFile = async (e) => {
+  handleFile = async e => {
     let file = e.target.files[0]
-    console.log({ file })
     let formData = new FormData()
     formData.append('file', file)
     let headers = {
       'Content-Type': 'multipart/form-data'
     }
     const response = await axios.post('msg', formData, headers)
-    console.log({ response })
-    const body = await response.data
-    console.log(body)
-    console.log({ bodyType: typeof body })
-    this.setState({ emailHeaders: Object.entries(body) })
+    const responseBody = await response.data
+    console.info({ responseBody })
+    this.setState({
+      emailHeaders: Object.entries(responseBody.headers),
+      emailBody: responseBody.body
+    })
   }
+
+  renderHeaders () {
+    const { emailHeaders } = this.state
+    return (
+      <div>
+        {emailHeaders.length > 0 && (
+          <div className='centered'>
+            <CopyToClipboard
+              text={this.formatHeaders()}
+              onCopy={() => {
+                console.log({ headers: emailHeaders }) &&
+                  this.setState({ copied: true })
+              }}
+            >
+              <button>Copy to clipboard</button>
+            </CopyToClipboard>
+          </div>
+        )}
+        <Table headings={['Header', 'Value']} rows={emailHeaders} />
+      </div>
+    )
+  }
+
+  renderBody () {
+    const { emailBody } = this.state
+    console.log('Rendering Email Body')
+    console.log({ emailBody })
+    return (
+      <div className='emailBody'>
+        <pre>{emailBody}</pre>
+      </div>
+    )
+  }
+
+  toggleView () {
+    this.state.view == VIEWS.header
+      ? this.setState({ view: VIEWS.body })
+      : this.setState({ view: VIEWS.header })
+  }
+
   render () {
     return (
       <div>
@@ -35,17 +80,21 @@ class App extends Component {
           <div className='upload-container'>
             <div className='file-upload'>
               <FileUpload
-                handleFile={(e) => this.handleFile(e)}
+                handleFile={e => this.handleFile(e)}
                 clearFile={() => this.clearFile()}
               />
             </div>
-            {this.state.emailHeaders.length > 0 && <div className='clipboard'>
-              <CopyToClipboard text={this.formatHeaders()} onCopy={() => { console.log({ headers: this.state.emailHeaders }) && this.setState({ copied: true }) }}>
-                <button>Copy to clipboard</button>
-              </CopyToClipboard>
-            </div>}
+            {this.state.emailHeaders && this.state.emailBody && (
+              <div className='centered'>
+                <button className='centered' onClick={() => this.toggleView()}>
+                  Switch View
+                </button>
+              </div>
+            )}
+            {this.state.view == VIEWS.header
+              ? this.renderHeaders()
+              : this.renderBody()}
           </div>
-          <Table headings={['Header', 'Value']} rows={this.state.emailHeaders} />
         </main>
       </div>
     )

@@ -12,7 +12,7 @@ class FileUpload extends Component {
           type='file'
           name='file'
           multiple={false}
-          onChange={(e) => handleFile(e)}
+          onChange={e => handleFile(e)}
         />
         <label htmlFor='file'>Select File</label>
       </>

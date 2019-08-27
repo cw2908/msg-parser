@@ -1,6 +1,8 @@
+# frozen_string_literal: true
 
-require 'mapi/msg'
-require 'securerandom'
+require "mapi/msg"
+require "securerandom"
+require_relative "./lib/msg_reader.rb"
 class App < Sinatra::Base
   use DevServerProxy if development?
 
@@ -16,26 +18,14 @@ class App < Sinatra::Base
     end
   end
 
-  get '/' do
+  get "/" do
     erb :app
   end
 
-  post '/msg' do
-    tempfile = params.to_h.dig('file','tempfile')
-    if tempfile
-      begin
-        email = Mapi::Msg.open tempfile
-        email_headers = email.headers.inject({}) { |x, (k,v)| x["#{k}:"] = v; x }
-        puts "email_headers: #{email_headers}"
-        json email_headers
-      rescue => e
-        error_response = {Error: "Invalid File, please select an .msg file"}
-        json error_response
-        puts "Error: #{e}"
-      end
-    else
-      puts "No File Detected: #{file}"
-      puts "params: #{params.inspect}"
-    end
+  post "/msg" do
+    tempfile = params.to_h.dig("file", "tempfile")
+    parsed_msg = MsgReader.parse(tempfile)
+    puts "#{parsed_msg}"
+    json parsed_msg
   end
 end

@@ -24,8 +24,6 @@ class App < Sinatra::Base
 
   post "/msg" do
     tempfile = params.to_h.dig("file", "tempfile")
-    parsed_msg = MsgReader.parse(tempfile)
-    puts "#{parsed_msg}"
-    json parsed_msg
+    json MsgReader.parse(tempfile)
   end
 end

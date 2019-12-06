@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '2.5.1'
+ruby '2.6.5'
 
 gem 'rack-proxy'
 gem 'ruby-msg'
@@ -14,3 +14,5 @@ group :development do
   gem 'byebug'
   gem 'rspec'
 end
+
+gem "activesupport", "~> 5.2"

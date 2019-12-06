@@ -24,6 +24,6 @@ class App < Sinatra::Base
 
   post "/msg" do
     tempfile = params.to_h.dig("file", "tempfile")
-    json MsgReader.parse(tempfile)
+    json tempfile ? MsgReader.call(tempfile) : { error: "No .msg file detected" }
   end
 end

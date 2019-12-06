@@ -61,6 +61,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activesupport (~> 5.2)
   awesome_print
   byebug
   rack-proxy
@@ -70,7 +71,7 @@ DEPENDENCIES
   sinatra-contrib
 
 RUBY VERSION
-   ruby 2.5.1p57
+   ruby 2.6.5p114
 
 BUNDLED WITH
-   1.16.5
+   1.17.3

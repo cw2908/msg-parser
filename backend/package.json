@@ -1,0 +1,12 @@
+{
+  "name": "sinatra-webpack",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "heroku-postbuild": "yarn build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+}

@@ -6,8 +6,8 @@ class MsgReader
 
 
   def map_headers
-    email.headers.
-      inject({}) { |hsh, (header, value)| hsh["#{header}:"] = value; hsh }
+    email.headers
+      .inject({}) { |hsh, (header, value)| hsh["#{header}:"] = value; hsh }
   end
 
   def read_body

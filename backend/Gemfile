@@ -16,3 +16,8 @@ group :development do
 end
 
 gem "activesupport", "~> 5.2"
+
+gem "rerun", "~> 0.13.0"
+
+gem "rubocop", "~> 0.92.0", :group => :development
+gem "rubocop-performance", "~> 1.8", :group => :development

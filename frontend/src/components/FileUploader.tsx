@@ -1,73 +1,143 @@
-import React from "react";
+import React, { useState } from "react";
 import { FileDrop } from "react-file-drop";
 import classnames from "classnames";
 import styles from "styles/FileUploader.module.scss";
-import { FileSubmitter } from "src/utils/FileSubmitter";
+import { useFetch } from "use-http";
 import BaseText from "src/components/BaseText";
+import JSONTree from "react-json-tree";
+import baseTheme from "src/themes/baseTheme";
+import CopyToClipboard from "react-copy-to-clipboard";
 
-const FileUploader = ({ file, setFile, setEmail }) => {
-  const handleSubmit = async ({ event }) => {
-    console.log(`Uploading ${file?.name}`);
-    event?.preventDeafault();
+export interface IProps {
+  file: File;
+  setFile?: Function;
+  setEmail?: Function;
+}
+
+type ErrorMessage = {
+  errorMessage: string;
+};
+
+export const getStaticProps = async ({}) => {};
+
+const FileUploader = ({ file, setFile, setEmail, email }) => {
+  const [errorMessage, setErrorMessage] = useState("");
+  console.log({ errorMessage });
+  const [dragging, setDragging] = useState(false);
+  const copyString = email ? `${email.headers}\n${email.body}` : null;
+  const uploadFile = async ({ file, setEmail }): Promise<IProps> => {
+    if (!file) {
+      console.log("No File", file);
+      return;
+    }
     const formData = new FormData();
     formData.append("file", file);
-    console.log({ formData, file });
-    console.log({ formDataFile: formData["file"] });
 
-    const res = await fetch("http://localhost:9292/msg", {
+    const requestOptions: any = {
       method: "POST",
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
       body: formData,
-    }).catch((err) => console.error({ err }));
-    console.info({ res, formData });
-    setEmail({
-      // emailHeaders: Object.entries(res.headers),
-      // emailBody: res.body,
-    });
-    return null;
+    };
+    try {
+      const response = await fetch("http://localhost:9292/msg", requestOptions);
+      const data: any = await response.json();
+      if (data.error_message) {
+        setErrorMessage(data);
+        setEmail({ headers: { headers: data } });
+      }
+      return data;
+    } catch (err) {
+      console.log({ err });
+      if (err) {
+        setErrorMessage(err);
+        setEmail(null);
+      }
+    }
   };
 
-  const handleFile = ({ file }) => {
-    if (!file[0]) return null;
-    setFile(file[0]);
+  const handleSubmit = async (event) => {
+    if (event.preventDefault) {
+      event?.preventDefault();
+    }
+    const file = event?.target?.files[0];
+    setFile(file);
+    const newEmail = await uploadFile({ file, setEmail });
+    setEmail(newEmail);
+  };
+
+  const handleFile = (event) => {
+    setDragging(false);
+    const file = event?.target?.files[0];
+    if (!file) return null;
+    setFile(file);
+    handleSubmit({});
+  };
+
+  const handleChange = async (event) => {
+    await setFile(event?.target?.files[0]);
+    await handleSubmit(event);
   };
 
   return (
     <>
       <FileDrop
-        onDragOver={(event) => console.log("onDragOver", event)}
-        onDragLeave={(event) => console.log("onDragLeave", event)}
-        onDrop={(file) => handleFile({ file })}>
-        <div
-          className={classnames(
-            styles.card,
-            styles.raised,
-            styles["file-box"]
-          )}>
+        onDragOver={() => {
+          setDragging(true);
+        }}
+        onDragLeave={() => {
+          setDragging(false);
+        }}
+        onDrop={(file) => handleSubmit(file)}>
+        <div className={classnames(styles.card, styles["upload"])}>
           <div>
-            <div className="file-drop">
-              <label title="Upload File">{file?.name || "Upload File"}</label>
-              <input
-                className={styles["file-input"]}
-                id="file"
-                name="filename"
-                type="hidden"
-                accept="application/vnd.ms-outlook"
-              />
-            </div>
+            {errorMessage ? (
+              <JSONTree hideRoot={true} data={errorMessage} />
+            ) : null}
           </div>
-        </div>
-        <div>
-          <div>
-            <FileSubmitter file={file} setFile={setFile} />
-          </div>
-          <div>
-            <span className={styles.card} onClick={() => setFile(null)}>
-              <BaseText text={file?.name ? "clear" : null} />
-            </span>
-          </div>
+          {email && copyString ? (
+            <CopyToClipboard text={copyString}>
+              <button
+                className={classnames(
+                  styles["left-card"],
+                  styles.card,
+                  styles.button
+                )}
+                onClick={() => {}}>
+                Copy email to clipboard
+              </button>
+            </CopyToClipboard>
+          ) : null}
+          <label
+            htmlFor="file-upload"
+            title="Upload File"
+            className={classnames(
+              styles["file-label"],
+              dragging ? styles.dragging : null
+            )}>
+            <input
+              className={styles["file-input"]}
+              id="file-upload"
+              name="filename"
+              type="file"
+              accept="application/vnd.ms-outlook"
+              onChange={(event) => handleSubmit(event)}
+            />
+            <h3>{file?.name || "Upload .msg File"}</h3>
+          </label>
+          <button
+            className={
+              (styles.card,
+              file?.name
+                ? styles.button
+                : classnames(styles["button"], styles["button-hidden"]))
+            }
+            onClick={(event) => {
+              event.preventDefault();
+              setFile(null);
+              setEmail(null);
+              setErrorMessage("");
+            }}>
+            {"Clear"}
+          </button>
         </div>
       </FileDrop>
     </>

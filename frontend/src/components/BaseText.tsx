@@ -3,11 +3,15 @@ import classnames from "classnames";
 
 interface IBaseText {
   text: string;
-  styles?: object;
+  styles?: string;
 }
 
 const BaseText = ({ text, styles }: IBaseText) => {
-  return <span className={classnames(styles ? styles : "")}>{text}</span>;
+  return (
+    <span className={classnames(styles ? styles : "")}>
+      <p>{text}</p>
+    </span>
+  );
 };
 
 export default BaseText;

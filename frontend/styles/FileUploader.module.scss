@@ -1,11 +1,5 @@
-.button {
-  width: 100%;
-  height: 100%;
-  align-self: center;
-}
-
 .card {
-  margin: 1rem;
+  // margin: 1rem;
   flex: 1;
   padding: 1.5rem;
   text-align: left;
@@ -17,38 +11,99 @@
 }
 
 .file-drop {
-  color: orange;
+  display: block !important;
+  label,
+  input {
+    width: 100%;
+    height: 100%;
+  }
 }
 
+.dragging {
+  color: #f99d1c;
+
+  transition-property: height;
+  transition-duration: 200ms;
+  transition-timing-function: ease-in-out;
+}
 .light {
   color: #eee;
 }
-.button {
-  background-color: inherit;
-  border: none;
+
+.left-card {
+  margin-left: auto;
+  text-align: center;
+  &:hover {
+    color: #f99d1c;
+  }
 }
 
-.file-box {
+.button {
+  margin: 0 1.5rem;
+  background-color: inherit;
   color: #444;
   border: 3px dashed #444;
   border-radius: 3px;
+  padding: 1.5rem;
+  &:hover {
+    color: #f99d1c;
+  }
+}
+.button-hidden {
+  opacity: 0;
+}
 
+.upload {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.file-label {
+  color: #444;
+  border: 3px dashed #444;
+  border-radius: 3px;
+  padding: 1.5rem;
+  display: inline-block;
+  cursor: pointer;
   &:hover,
   &:active,
   &:focus {
     color: #f99d1c;
-    border-color: #f99d1c;
+  }
+}
+.dragging {
+  border-color: #f99d1c;
+  animation: bounce 0.5s infinite alternate;
+  -webkit-animation: bounce 0.5s infinite alternate;
+}
+
+@keyframes bounce {
+  from {
+    transform: translateY(0px);
+  }
+  to {
+    transform: translateY(-14px);
+  }
+}
+@-webkit-keyframes bounce {
+  from {
+    transform: translateY(0px);
+  }
+  to {
+    transform: translateY(-14px);
   }
 }
 
 .file-input {
-  width: 100%;
-  height: 100%;
   display: none;
-  opacity: 0;
 }
 
 .file-drop {
-  display: inline-block;
+  flex-basis: 1;
+  justify-content: center;
   text-align: center;
+}
+.form-action-buttons {
+  display: flex;
+  justify-content: center;
 }

@@ -2,10 +2,7 @@ import React, { useState } from "react";
 import { FileDrop } from "react-file-drop";
 import classnames from "classnames";
 import styles from "styles/FileUploader.module.scss";
-import { useFetch } from "use-http";
-import BaseText from "src/components/BaseText";
 import JSONTree from "react-json-tree";
-import baseTheme from "src/themes/baseTheme";
 import CopyToClipboard from "react-copy-to-clipboard";
 
 export interface IProps {
@@ -38,7 +35,7 @@ const FileUploader = ({ file, setFile, setEmail, email }) => {
       body: formData,
     };
     try {
-      const response = await fetch("http://localhost:9292/msg", requestOptions);
+      const response = await fetch("/msg", requestOptions);
       const data: any = await response.json();
       if (data.error_message) {
         setErrorMessage(data);
@@ -90,7 +87,9 @@ const FileUploader = ({ file, setFile, setEmail, email }) => {
         <div className={classnames(styles.card, styles["upload"])}>
           <div>
             {errorMessage ? (
-              <JSONTree hideRoot={true} data={errorMessage} />
+              <div className={(styles["left-card"], styles.card)}>
+                <JSONTree hideRoot={true} data={errorMessage} />
+              </div>
             ) : null}
           </div>
           {email && copyString ? (

@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "private": true,
-  "scripts": {
-    "heroku-postbuild": "yarn build"
+  "engines": {
+    "node": "^11.15.0",
+    "yarn": "^1.19.2"
   },
+  "scripts": {},
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "ISC"
 }

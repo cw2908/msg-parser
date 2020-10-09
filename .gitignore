@@ -4,3 +4,4 @@
 tester.rb
 /tmp
 *error.log
+*.msg

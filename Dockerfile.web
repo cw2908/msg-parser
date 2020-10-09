@@ -1,0 +1,78 @@
+FROM ruby:2.6.5
+# Replace shell with bash so we can source files
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+RUN touch ~/.zshrc
+RUN touch ~/.bash_profile
+RUN touch ~/.bashrc
+
+# Make Directories
+RUN mkdir -p /msg_parser/frontend/build
+
+# Copy app to home dir
+WORKDIR /msg_parser
+COPY . .
+
+
+# Setup Node, Yarn, Cron, NVM zsh :)
+RUN apt-get update -qq && apt-get install -y nodejs cron zsh npm
+ENV NVM_DIR /usr/local/nvm
+ENV NODE_VERSION 11.15.0
+
+# Install nvm with node and npm
+RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.30.1/install.sh | bash \
+  && source $NVM_DIR/nvm.sh \
+  && nvm install $NODE_VERSION \
+  && nvm alias default $NODE_VERSION \
+  && nvm use default
+RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
+
+ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
+ENV PATH      $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
+
+
+
+# Install backend dependencies
+RUN gem install bundler:2.1.4
+RUN bundle install
+
+# Export Frontend & add binaries to path
+WORKDIR /msg_parser/frontend
+RUN source $NVM_DIR/nvm.sh 
+RUN node -v
+RUN npm install -g yarn@1.19.2
+RUN yarn config set network-timeout 300000
+RUN yarn global add next
+RUN yarn
+ENV PATH /msg_parser/frontend/node_modules/.bin:$PATH
+RUN yarn run build
+RUN yarn run export
+
+
+
+
+
+ENV ENTRYKIT_VERSION 0.4.0
+RUN wget https://github.com/progrium/entrykit/releases/download/v${ENTRYKIT_VERSION}/entrykit_${ENTRYKIT_VERSION}_Linux_x86_64.tgz \
+  && tar -xvzf entrykit_${ENTRYKIT_VERSION}_Linux_x86_64.tgz \
+  && rm entrykit_${ENTRYKIT_VERSION}_Linux_x86_64.tgz \
+  && mv entrykit /bin/entrykit \
+  && chmod +x /bin/entrykit \
+  && entrykit --symlink
+
+# terminal colors with xterm
+ENV TERM xterm
+ENV ZSH_THEME ys
+RUN chsh -s $(which zsh)
+
+# Copy static files and start backend
+WORKDIR /msg_parser
+RUN cp -R ./frontend/out/* ./public/
+# Add a script to be executed every time the container starts.
+COPY entrypoint.sh /usr/bin/
+RUN chmod +x /usr/bin/entrypoint.sh
+ENTRYPOINT ["entrypoint.sh"]
+# Start the main process.
+
+
+EXPOSE ${PORT}
+CMD bash -c 'rm -f tmp/pids/server.pid && bundle exec rackup -p ${PORT} --host "0.0.0.0"'

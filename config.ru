@@ -1,8 +1,10 @@
-require 'bundler'
+# frozen_string_literal: true
 
-Bundler.require(:default, ENV['RACK_ENV'].to_sym)
+require "bundler"
 
-require './dev_server_proxy';
-require './app'
+Bundler.require(:default, ENV["RACK_ENV"].to_sym)
+
+require "./dev_server_proxy"
+require "./app"
 
 run App

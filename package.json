@@ -3,53 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "private": true,
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --config config/webpack.dev.js",
-    "build": "webpack --config config/webpack.prod.js",
-    "heroku-postbuild": "yarn build"
+  "engines": {
+    "node": "^11.15.0",
+    "yarn": "^1.19.2"
   },
+  "scripts": {},
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "axios": "^0.18.1",
-    "bootstrap": "^4.3.1",
-    "eslint": "^5.16.0",
-    "prop-types": "^15.6.2",
-    "react": "^16.5.2",
-    "react-bootstrap": "^1.0.0-beta.8",
-    "react-copy-to-clipboard": "^5.0.1",
-    "react-dom": "^16.5.2",
-    "react-hot-loader": "^4.3.11",
-    "uglifyjs-webpack-plugin": "^2.2.0"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.1.2",
-    "@babel/plugin-proposal-class-properties": "^7.4.4",
-    "@babel/polyfill": "^7.4.4",
-    "@babel/preset-env": "^7.1.0",
-    "@babel/preset-react": "^7.0.0",
-    "babel-eslint": "^10.0.1",
-    "babel-loader": "^8.0.4",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "css-loader": "^1.0.0",
-    "eslint-config-standard": "^12.0.0",
-    "eslint-config-standard-react": "^7.0.2",
-    "eslint-plugin-import": "^2.17.2",
-    "eslint-plugin-node": "^9.0.1",
-    "eslint-plugin-promise": "^4.1.1",
-    "eslint-plugin-react": "^7.13.0",
-    "eslint-plugin-standard": "^4.0.0",
-    "mini-css-extract-plugin": "^0.4.3",
-    "optimize-css-assets-webpack-plugin": "^5.0.1",
-    "postcss-import": "^12.0.0",
-    "postcss-loader": "^3.0.0",
-    "postcss-preset-env": "^6.0.7",
-    "style-loader": "^0.23.0",
-    "webpack": "^4.20.2",
-    "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.11",
-    "webpack-merge": "^4.1.4"
-  }
+  "license": "ISC"
 }

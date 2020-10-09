@@ -1,0 +1,105 @@
+.container {
+  min-height: 100vh !important;
+  padding: 0 0.5rem;
+  background-color: #eee;
+}
+
+.main {
+  padding: 5rem 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  margin: 0;
+  line-height: 1.15;
+  text-align: center;
+  font-size: 4rem;
+}
+
+.raised {
+  margin-bottom: 20;
+  padding-bottom: 20;
+}
+
+.card {
+  margin: 1rem;
+  flex: 1;
+  padding: 1.5rem;
+  text-align: left;
+  color: inherit;
+  text-decoration: none;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.light {
+  color: #eee;
+}
+
+.file-box {
+  color: #444;
+  border: 3px dashed #444;
+  border-radius: 3px;
+
+  &:hover,
+  &:active,
+  &:focus {
+    color: #f99d1c;
+    border-color: #f99d1c;
+  }
+}
+
+.file-input {
+  display: none;
+}
+
+// .file-box:hover,
+// .file-box:focus,
+// .file-box:active {
+//   color: #f99d1c;
+//   border-color: #f99d1c;
+// }
+
+.app-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  padding-left: 5rem;
+  background-color: #444;
+  color: #eee;
+  flex: 1;
+}
+.file-uploader {
+  flex: 2;
+}
+.email {
+  flex: 8;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.card h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
+}
+
+.card p {
+  margin: 0;
+  font-size: 1.25rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 600px) {
+  .grid {
+    width: 100%;
+    flex-direction: column;
+  }
+}

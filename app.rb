@@ -33,21 +33,14 @@ class App < Sinatra::Base
   post "/msg" do
     puts "params: #{params.inspect}"
     tempfile = params.to_h.dig("file", "tempfile")
-    ap params
-    ap tempfile
+    puts "tempfile: #{tempfile.inspect}"
     if tempfile
       res = MsgReader.call(tempfile)
+      ap res[:headers]
     else
       res = { error_message: "No .msg file detected" }
     end
-    ap res
     json res
-    # rescue StandardError => e
-    #   msg = {
-    #     error_message: "[#{e.class}] #{e}"
-    #   }
-    #   ap msg
-    #   json msg
   end
 
   options "*" do

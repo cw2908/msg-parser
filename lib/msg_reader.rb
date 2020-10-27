@@ -22,15 +22,19 @@ class MsgReader
     end
   end
 
+
+  # Reads body per content type
+  # 
+  #  => "text/plain: content\ntext/html: <html>...</html>"
+  #
   def read_body
-    begin
-      body = email.body_to_mime.to_s
-    rescue
-      body = email.body_to_mime.body.to_s
-    end
-    body.gsub('\n', "\n")
-        .gsub('\r', "\r").gsub('\t', "\t")
-        .encode("UTF-8", "binary", invalid: :replace, undef: :replace, replace: "")
+    email.body_to_mime.parts.map { |part| 
+      [
+        part.content_type,
+        part.body.encode("UTF-8", "binary", invalid: :replace, undef: :replace, replace: "")
+      ].join(": ")
+    }.join("\n")
+      #  .gsub('\n', "\n").gsub('\r', "\r").gsub('\t', "\t")
   end
 
   def email
@@ -41,7 +45,7 @@ class MsgReader
   def call
     {
       headers: map_headers,
-      body: read_body
+      body: read_body.to_s
     }
   end
 end
